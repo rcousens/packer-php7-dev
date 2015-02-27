@@ -4,8 +4,9 @@ include:
 
 get-composer:
   cmd.run:
-    - name: 'CURL=`which curl`; $CURL -sS https://getcomposer.org/installer | php'
+    - name: 'CURL=`which curl`; $CURL -sS https://getcomposer.org/installer | /usr/local/bin/php'
     - unless: test -f /usr/local/bin/composer
+    - onlyif: test -f /usr/local/bin/php
     - cwd: /root/
     - require:
       - sls: php

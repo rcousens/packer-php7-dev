@@ -4,4 +4,3 @@ dev:
     - composer
     - nginx
     - php
-    - ssl

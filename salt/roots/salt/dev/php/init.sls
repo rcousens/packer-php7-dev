@@ -18,7 +18,7 @@ php-buildconf:
 
 php-configure:
   cmd.wait:
-    - name: ./configure --enable-debug --enable-fpm --with-fpm-systemd --enable-maintainer-zts
+    - name: ./configure --enable-debug --enable-fpm --with-fpm-user=nginx --with-fpm-group=nginx --with-fpm-systemd --enable-maintainer-zts --with-openssl --prefix=/usr/local
     - cwd: /home/vagrant/php-src
     - user: vagrant
     - group: vagrant
@@ -51,3 +51,41 @@ php-make-install:
     - group: root
     - watch:
       - cmd: php-make
+
+php-ini:
+  file.copy:
+    - name: /usr/local/lib/php.ini
+    - source: /home/vagrant/php-src/php.ini-development
+    - makedirs: true
+    - watch:
+      - cmd: php-make-install
+
+php-fpm-conf:
+  file.copy:
+    - name: /usr/local/etc/php-fpm.conf
+    - source: /usr/local/etc/php-fpm.conf.default
+    - makedirs: true
+    - watch:
+      - cmd: php-make-install
+
+php-www-conf:
+  file.copy:
+    - name: /usr/local/etc/php-fpm.d/www.conf
+    - source: /home/vagrant/php-src/sapi/fpm/www.conf
+    - makedirs: true
+    - watch:
+      - cmd: php-make-install
+
+php-fpm-service-systemd:
+  file.copy:
+    - name: /usr/lib/systemd/system/php-fpm.service
+    - source: /home/vagrant/php-src/sapi/fpm/php-fpm.service
+
+php-fpm:
+  service.running:
+    - enable: true
+    - restart: true
+    - watch:
+      - file: php-fpm-service-systemd
+
+
