@@ -2,10 +2,11 @@ https://github.com/php/php-src:
   git.latest:
     - rev: master
     - target: /home/vagrant/php-src
+    - user: vagrant
 
 buildconf-php:
   cmd.run:
-    - name: buildconf
+    - name: ./buildconf
     - cwd: /home/vagrant/php-src
     - user: vagrant
     - group: vagrant
@@ -14,7 +15,7 @@ buildconf-php:
 
 configure-php:
   cmd.wait:
-    - name: configure --enable-debug
+    - name: ./configure --enable-debug
     - cwd: /home/vagrant/php-src
     - user: vagrant
     - group: vagrant
@@ -23,9 +24,18 @@ configure-php:
 
 make-php:
   cmd.wait:
-    - name: make
+    - name: ./make
     - cwd: /home/vagrant/php-src
     - user: vagrant
     - group: vagrant
     - watch:
       - cmd: configure-php
+
+make-php-install:
+  cmd.wait:
+    - name: ./make install
+    - cwd: /home/vagrant/php-src
+    - user: root
+    - group: root
+    - watch:
+      - cmd: make-php
