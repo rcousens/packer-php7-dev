@@ -1,5 +1,6 @@
-#!/bin/bash
+#! /bin/bash -eux
 
+# install vagrant master key
 mkdir ~vagrant/.ssh
 wget --no-check-certificate \
     'https://raw.githubusercontent.com/mitchellh/vagrant/master/keys/vagrant.pub' \

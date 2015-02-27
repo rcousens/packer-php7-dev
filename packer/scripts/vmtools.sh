@@ -1,5 +1,6 @@
-#!/bin/bash
+#! /bin/bash -eux
 
+# install vbox guest additions
 mkdir /tmp/vbox
 VER=$(cat /home/vagrant/.vbox_version)
 mount -o loop /home/vagrant/VBoxGuestAdditions_$VER.iso /tmp/vbox

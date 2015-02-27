@@ -1,41 +1,53 @@
-https://github.com/php/php-src:
+php-src:
   git.latest:
+    - name: https://github.com/php/php-src
     - rev: master
     - target: /home/vagrant/php-src
     - user: vagrant
 
-buildconf-php:
-  cmd.run:
+php-buildconf:
+  cmd.wait:
     - name: ./buildconf
     - cwd: /home/vagrant/php-src
     - user: vagrant
-    - group: vagrant
+    - group: vagrant    
     - require:
-      - git: https://github.com/php/php-src
+      - git: php-src
+    - watch:
+      - git: php-src
 
-configure-php:
+php-configure:
   cmd.wait:
     - name: ./configure --enable-debug --enable-fpm --with-fpm-systemd --enable-maintainer-zts
     - cwd: /home/vagrant/php-src
     - user: vagrant
     - group: vagrant
     - watch:
-      - cmd: buildconf-php
+      - cmd: php-buildconf
 
-make-php:
+php-make-clean:
   cmd.wait:
-    - name: ./make
+    - name: make clean
     - cwd: /home/vagrant/php-src
     - user: vagrant
     - group: vagrant
     - watch:
-      - cmd: configure-php
+      - cmd: php-configure
 
-make-php-install:
+php-make:
   cmd.wait:
-    - name: ./make install
+    - name: make
+    - cwd: /home/vagrant/php-src
+    - user: vagrant
+    - group: vagrant
+    - watch:
+      - cmd: php-make-clean
+
+php-make-install:
+  cmd.wait:
+    - name: make install
     - cwd: /home/vagrant/php-src
     - user: root
     - group: root
     - watch:
-      - cmd: make-php
+      - cmd: php-make
