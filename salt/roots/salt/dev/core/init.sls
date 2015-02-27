@@ -2,10 +2,6 @@ include:
   - nginx
   - php
 
-git:
-  pkg.latest:
-    - order: first
-
 vagrant-sudoers:
   file.managed:
     - name: /etc/sudoers.d/vagrant
