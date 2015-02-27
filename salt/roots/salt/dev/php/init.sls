@@ -15,7 +15,7 @@ buildconf-php:
 
 configure-php:
   cmd.wait:
-    - name: ./configure --enable-debug
+    - name: ./configure --enable-debug --enable-maintainer-zts
     - cwd: /home/vagrant/php-src
     - user: vagrant
     - group: vagrant
