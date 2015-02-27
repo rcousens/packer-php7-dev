@@ -10,7 +10,7 @@ Vagrant.configure("2") do |config|
     v.name = "php7-dev-c7"
   end
 
-  config.vm.network "forwarded_port", guest: 80, host:9901 # nginx 
+  config.vm.network "forwarded_port", guest: 80, host:10001 # nginx 
   
   config.vm.network "private_network", type: "dhcp"
 
