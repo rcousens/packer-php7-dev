@@ -13,7 +13,7 @@
       "iso_checksum": "ee505335bcd4943ffc7e6e6e55e5aaa8da09710b6ceecda82a5619342f1d24d9",
       "iso_checksum_type": "sha256",
       "iso_url": "iso/CentOS-7.0-1406-x86_64-DVD.iso",
-      "output_directory": "team-spirit-c7-x86_64-virtualbox",
+      "output_directory": "php7-dev-c7-x86_64-virtualbox",
       "shutdown_command": "echo 'vagrant'|sudo -S shutdown -P now",
       "ssh_password": "vagrant",
       "ssh_port": 22,
@@ -35,12 +35,12 @@
         ]
       ],
       "virtualbox_version_file": ".vbox_version",
-      "vm_name": "team-spirit-c7-x86_64"
+      "vm_name": "php7-dev-c7-x86_64"
     }
   ],
   "post-processors": [
     {
-      "output": "../build/{{.Provider}}/vagrant/php-c7-x86_64.box",
+      "output": "../build/{{.Provider}}/vagrant/php7-dev-c7-x86_64.box",
       "type": "vagrant"
     }
   ],
