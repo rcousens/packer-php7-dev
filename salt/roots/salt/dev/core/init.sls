@@ -11,5 +11,5 @@ vagrant-sudoers:
 
 set-permissions:
   cmd.run:
-    - name: 'SETFACL=`which setfacl`; $SETFACL -R -m u:vagrant:rwX -m u:nginx:rwX /srv/www; $SETFACL -dR -m u:vagrant:rwX -m -u:nginx:rwX /srv/www'
+    - name: 'SETFACL=`which setfacl`; $SETFACL -R -m u:vagrant:rwX -m u:nginx:rwX /srv/www; $SETFACL -dR -m u:vagrant:rwX -m u:nginx:rwX /srv/www'
     - order: last

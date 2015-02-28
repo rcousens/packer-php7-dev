@@ -5,51 +5,52 @@ php-src:
     - target: /home/vagrant/php-src
     - user: vagrant
 
-php-buildconf:
+php-make-distclean:
   cmd.wait:
+    - name: make distclean
+    - cwd: /home/vagrant/php-src
+    - user: vagrant
+    - group: vagrant
+    - onlyif: test -f /home/vagrant/php-src/Makefile
+    - onchanges:
+      - git: php-src
+
+php-buildconf:
+  cmd.run:
     - name: ./buildconf
     - cwd: /home/vagrant/php-src
     - user: vagrant
     - group: vagrant    
-    - require:
-      - git: php-src
     - watch:
+      - cmd: php-make-distclean
+    - require:
       - git: php-src
 
 php-configure:
-  cmd.wait:
-    - name: ./configure --enable-debug --enable-fpm --with-fpm-user=nginx --with-fpm-group=nginx --with-fpm-systemd --enable-maintainer-zts --with-openssl --prefix=/usr/local
+  cmd.run:
+    - name: ./configure --enable-debug --enable-fpm --with-fpm-user=nginx --with-fpm-group=nginx --with-fpm-systemd --enable-maintainer-zts --with-openssl --prefix=/usr/local --sbindir=/usr/local/sbin --sysconfdir=/usr/local/etc
     - cwd: /home/vagrant/php-src
     - user: vagrant
     - group: vagrant
-    - watch:
+    - require:
       - cmd: php-buildconf
 
-php-make-clean:
-  cmd.wait:
-    - name: make clean
-    - cwd: /home/vagrant/php-src
-    - user: vagrant
-    - group: vagrant
-    - watch:
-      - cmd: php-configure
-
 php-make:
-  cmd.wait:
+  cmd.run:
     - name: make
     - cwd: /home/vagrant/php-src
     - user: vagrant
     - group: vagrant
-    - watch:
-      - cmd: php-make-clean
+    - require:
+      - cmd: php-make-distclean
 
 php-make-install:
-  cmd.wait:
+  cmd.run:
     - name: make install
     - cwd: /home/vagrant/php-src
     - user: root
     - group: root
-    - watch:
+    - require:
       - cmd: php-make
 
 php-ini:
@@ -71,7 +72,7 @@ php-fpm-conf:
 php-www-conf:
   file.copy:
     - name: /usr/local/etc/php-fpm.d/www.conf
-    - source: /home/vagrant/php-src/sapi/fpm/www.conf
+    - source: /usr/local/etc/php-fpm.d/www.conf.default
     - makedirs: true
     - watch:
       - cmd: php-make-install
@@ -80,6 +81,8 @@ php-fpm-service-systemd:
   file.copy:
     - name: /usr/lib/systemd/system/php-fpm.service
     - source: /home/vagrant/php-src/sapi/fpm/php-fpm.service
+    - watch:
+      - cmd: php-make-install
 
 php-fpm:
   service.running:
