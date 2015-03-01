@@ -68,7 +68,7 @@ $ vagrant up
 * nginx is listening on http://localhost:10001.  
 * PostgreSQL is listening on tcp://localhost:10002.
 
-A default index.php is copied that will execute phpinfo. Open up http://localhost:10001 in a browser to verify the installation is working.
+A default index.php is copied that will execute phpinfo. Open up [http://localhost:10001] in a browser to verify the installation is working.
 
 To access the virtual machine:
 ```sh
