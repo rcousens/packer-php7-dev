@@ -64,8 +64,8 @@ Change directory to where the repo was cloned and launch the vagrant box:
 $ vagrant up
 ```
 
-From the host machine:
-nginx is listening on http://localhost:10001.
+From the host machine:  
+nginx is listening on http://localhost:10001.  
 PostgreSQL is listening on tcp://localhost:10002.
 
 To access the virtual machine:
