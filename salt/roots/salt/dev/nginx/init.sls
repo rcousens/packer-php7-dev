@@ -36,7 +36,7 @@ nginx-vhost-dev:
 phpinfo:
   file.copy:
     - name: /srv/www/dev/web/index.php
-    - source: salt://_files/web/index.php
+    - source: salt://_files/nginx/web/index.php
     - unless: test -f /srv/www/dev/web/index.php
     - require:
       - file: /srv/www/dev/web
