@@ -11,7 +11,8 @@ Vagrant.configure("2") do |config|
   end
 
   config.vm.network "forwarded_port", guest: 80, host:10001 # nginx 
-  
+  config.vm.network "forwarded_port", guest: 5432, host:10002 # postgresql
+
   config.vm.network "private_network", type: "dhcp"
 
   config.vm.synced_folder "salt/roots/salt", "/srv/salt"
