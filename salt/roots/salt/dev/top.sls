@@ -4,3 +4,4 @@ dev:
     - composer
     - nginx
     - php
+    - postgresql
