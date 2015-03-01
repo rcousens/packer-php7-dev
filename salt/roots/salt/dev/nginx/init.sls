@@ -9,7 +9,7 @@ nginx:
       - file: /etc/nginx/conf.d/dev.conf
       - pkg: nginx
 
-/srv/www/dev:
+/srv/www/dev/web:
   file:
     - directory
     - user: vagrant
@@ -32,3 +32,11 @@ nginx-vhost-dev:
     - require:
       - file: nginx-conf
       - pkg: nginx
+
+phpinfo:
+  file.copy:
+    - name: /srv/www/dev/web/index.php
+    - source: salt://_files/web/index.php
+    - unless: test -f /srv/www/dev/web/index.php
+    - require:
+      - file: /srv/www/dev/web

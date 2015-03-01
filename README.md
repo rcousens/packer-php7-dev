@@ -27,7 +27,7 @@ Specifies the CentOS 7 installation options and prepares passwordless sudo for v
 
 ## Packer Provisioning
 
-Installs VirtualBox Guest additions and cleans up post installation. See [scripts] and [packer.json].
+Installs VirtualBox Guest additions and cleans up post installation. See [scripts] directory and [packer.json].
 
 # Included Components
 
@@ -64,9 +64,11 @@ Change directory to where the repo was cloned and launch the vagrant box:
 $ vagrant up
 ```
 
-From the host machine:  
-nginx is listening on http://localhost:10001.  
-PostgreSQL is listening on tcp://localhost:10002.
+#### From the host machine:  
+* nginx is listening on http://localhost:10001.  
+* PostgreSQL is listening on tcp://localhost:10002.
+
+A default index.php is copied that will execute phpinfo. Open up http://localhost:10001 in a browser to verify the installation is working.
 
 To access the virtual machine:
 ```sh
@@ -76,14 +78,15 @@ $ vagrant ssh
 ## Build Box Yourself
 TODO
 
-# Things You Can Do With the Development Box
+# Things You Can Do
 
-## Run PHP7 in a development environment
+## Run a website with PHP7
 
 Install your website under /srv/www/dev/web with a front controller app.php or a default file index.php.
 
 ## Tutorials
-* [Debug a PHP extension][1]
+* [Run the PHP7 test suite][1]
+* [Debug a PHP extension][2]
 
 License
 ----
@@ -96,5 +99,6 @@ MIT
 [scripts]:https://github.com/rcousens/packer-php7-dev/tree/master/packer/scripts
 [packer.json]:https://github.com/rcousens/packer-php7-dev/blob/master/packer/packer.json
 [Vagrant]:https://www.vagrantup.com/
-[1]:https://github.com/rcousens/packer-php7-dev/blob/master/doc/01-debug-php-extension.md
+[1]:https://github.com/rcousens/packer-php7-dev/blob/master/doc/01-running-tests.md
+[2]:https://github.com/rcousens/packer-php7-dev/blob/master/doc/02-debug-php-extension.md
 
