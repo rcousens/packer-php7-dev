@@ -17,8 +17,7 @@ Packer supports producing VirtualBox and VMware images. Currently the packer.jso
 
 ## SaltStack
 
-> [SaltStack]: Extremely fast and scalable systems and configuration management software for predictive orchestration, cloud and data center automation, server provisioning, application deployment and more.
-Markdown is a lightweight markup language based on the formatting conventions that people naturally use in email.  As 
+> [SaltStack] is an extremely fast and scalable systems and configuration management software for predictive orchestration, cloud and data center automation, server provisioning, application deployment and more.
 
 # Configuration Files
 
@@ -50,6 +49,7 @@ PostgreSQL is configured to accept md5 connections from all hosts (I will tighte
 
 ## Quick Setup
 
+
 ### Requirements
 * [Vagrant]
 
@@ -71,7 +71,8 @@ To access the virtual machine:
 ```sh
 $ vagrant ssh
 ```
-## Build the Box From Scratch
+
+## Build Box Yourself
 TODO
 
 # Things You Can Do With the Development Box
@@ -94,5 +95,5 @@ MIT
 [scripts]:https://github.com/rcousens/packer-php7-dev/tree/master/packer/scripts
 [packer.json]:https://github.com/rcousens/packer-php7-dev/blob/master/packer/packer.json
 [Vagrant]:https://www.vagrantup.com/
-[1]
+[1]:https://github.com/rcousens/packer-php7-dev/blob/master/doc/01-debug-php-extension.md
 
