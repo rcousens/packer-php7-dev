@@ -1,5 +1,6 @@
 /.vagrant
 /build/
 /packer/iso/
+/packer/php7-dev-c7-x86_64-virtualbox/
 /packer/packer_cache/
 
