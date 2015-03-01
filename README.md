@@ -65,8 +65,8 @@ $ vagrant up
 ```
 
 #### From the host machine:  
-* nginx is listening on http://localhost:10001.  
-* PostgreSQL is listening on tcp://localhost:10002.
+* nginx is listening on localhost port 10001.  
+* PostgreSQL is listening on localhost port 10002.
 
 A default index.php is copied that will execute phpinfo. Open up [http://localhost:10001](http://localhost:10001) in a browser to verify the virtual machine is working.
 
