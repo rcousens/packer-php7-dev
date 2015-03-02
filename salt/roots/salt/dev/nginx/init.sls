@@ -33,10 +33,10 @@ nginx-vhost-dev:
       - file: nginx-conf
       - pkg: nginx
 
-phpinfo:
-  file.copy:
+index-php:
+  file.managed:
     - name: /srv/www/dev/web/index.php
-    - source: salt://_files/nginx/web/index.php
+    - source: salt://_files/web/index.php
     - unless: test -f /srv/www/dev/web/index.php
     - require:
       - file: /srv/www/dev/web
