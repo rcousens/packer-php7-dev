@@ -35,8 +35,8 @@ nginx-vhost-dev:
 
 index-php:
   file.managed:
-    - name: /srv/www/dev/web/index.php
-    - source: salt://_files/web/index.php
-    - unless: test -f /srv/www/dev/web/index.php
+    - name: /srv/www/dev/web/phpinfo.php
+    - source: salt://_files/web/phpinfo.php
+    - unless: test -f /srv/www/dev/web/app.php
     - require:
       - file: /srv/www/dev/web
