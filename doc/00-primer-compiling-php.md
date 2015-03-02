@@ -36,4 +36,4 @@ Build Directories and Configure
 $ cd ~/php-src && mkdir custom-build && cd custom-build && ~/php-src/configure --my-flags
 ```
 
-Thanks to @derickr and @johannes for their patience and tutelage!
+Thanks to [@derickr](https://github.com/derickr) and [@johannes](https://github.com/johannes) for their patience and tutelage!
