@@ -7,9 +7,11 @@ This repository houses the configuration scripts necessary to build a CentOS 7 b
  - Installs the compiled binaries as SAPI FPM
  - Includes nginx and PostgreSQL
 
-The configuration is defined in salt state files that can be run by either packer or vagrant provision. To build the box yourself, you will require a CentOS 7 iso that has the minimum software as specified in the kickstarter config or if your internet connection is sufficiently fast you could point it to an iso to download.
+The configuration is defined in Salt state files. The Salt provisioner can either be run by Packer to generate your own box or by Vagrant to ensure an existing box is running the latest specification. To build the box from scratch yourself, you will require a CentOS 7 ISO that has the minimum software as specified in the kickstarter config or if your internet connection is sufficiently fast you could point it to an ISO image to download.
 
-Packer supports producing VirtualBox and VMware images. Currently the packer.json specifies an output virtualbox machine as I don't have a license for VMware.
+Packer supports producing VirtualBox and VMware images. Currently the Packer configuration specifies an output VirtualBox machine.
+
+If you do not wish to build the box from source, a pre-built VirtualBox image that can be launched with a single command is provided at [https://atlas.hashicorp.com/rcousens/boxes/php7-dev-c7](https://atlas.hashicorp.com/rcousens/boxes/php7-dev-c7). See [Quick Setup](## Quick Setup)
 
 ## Packer
 
