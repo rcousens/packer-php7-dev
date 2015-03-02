@@ -11,7 +11,7 @@ The configuration is defined in Salt state files. The Salt provisioner can eithe
 
 Packer supports producing VirtualBox and VMware images. Currently the Packer configuration specifies an output VirtualBox machine.
 
-If you do not wish to build the box from source, a pre-built VirtualBox image that can be launched with a single command is provided at [https://atlas.hashicorp.com/rcousens/boxes/php7-dev-c7](https://atlas.hashicorp.com/rcousens/boxes/php7-dev-c7). See [Quick Setup](## Quick Setup).
+If you do not wish to build the box from source, a pre-built VirtualBox image that can be launched with a single command is provided at [https://atlas.hashicorp.com/rcousens/boxes/php7-dev-c7](https://atlas.hashicorp.com/rcousens/boxes/php7-dev-c7). See [Quick Setup](#quick-setup).
 
 ## Packer
 
