@@ -1,6 +1,10 @@
 Configure
 =========
 
+```sh
+$ ./configure
+```
+
 PHP extensions can be bundled into the core executable (prevents wrong execution order, failed dependencies etc.) or compiled as shared objects to be included at runtime through php.ini.
 
 Enabling and Disabling Extensions
