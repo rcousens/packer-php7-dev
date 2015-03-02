@@ -6,13 +6,15 @@ PHP extensions can be bundled into the core executable (prevents wrong execution
 General Flags
 =============
 
-> --enable-foo = disabled by default
+Defaults are determined by the config.[m4|w32] files that can be found in ext/<name> directory.
 
-> --disable-foo = enabled by default
+> --enable-foo [typically disabled by default]
 
-> --with-foo = requires external lib, disabled by default
+> --disable-foo [typically enabled by default]
 
-> --without-foo = requires external lib, enabled by default
+> --with-foo [requires external lib, typically disabled by default]
+
+> --without-foo [requires external lib, typically enabled by default]
 
 Extensions
 ==========
