@@ -3,8 +3,8 @@ Configure
 
 PHP extensions can be bundled into the core executable (prevents wrong execution order, failed dependencies etc.) or compiled as shared objects to be included at runtime through php.ini.
 
-General Flags
-=============
+Enabling and Disabling Extensions
+=============================
 
 Defaults are determined by the config.[m4|w32] files that can be found in ext/<name> directories.
 
@@ -16,8 +16,8 @@ Defaults are determined by the config.[m4|w32] files that can be found in ext/<n
 
 > --without-foo [requires external lib, typically enabled by default]
 
-Extensions
-==========
+Extensions As Shared Objects
+============================
 
 Some support the shared option
 
