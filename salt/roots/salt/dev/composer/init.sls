@@ -17,3 +17,8 @@ install-composer:
     - cwd: /root/
     - watch:
       - cmd: get-composer
+
+update-composer:
+  cmd.run:
+    - name: 'PATH=$PATH:/usr/local/bin; composer self-update'
+    - onlyif: test -f /usr/local/bin/composer
