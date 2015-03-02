@@ -6,7 +6,7 @@ PHP extensions can be bundled into the core executable (prevents wrong execution
 General Flags
 =============
 
-Defaults are determined by the config.[m4|w32] files that can be found in ext/<name> directory.
+Defaults are determined by the config.[m4|w32] files that can be found in ext/<name> directories.
 
 > --enable-foo [typically disabled by default]
 
