@@ -87,6 +87,7 @@ TODO
 Install your website under /srv/www/dev/web with a front controller app.php or a default file index.php.
 
 ## Tutorials
+* [Compiling PHP Primer][0]
 * [Run the PHP7 test suite][1]
 * [Debug a PHP extension][2]
 
@@ -101,6 +102,7 @@ MIT
 [scripts]:https://github.com/rcousens/packer-php7-dev/tree/master/packer/scripts
 [packer.json]:https://github.com/rcousens/packer-php7-dev/blob/master/packer/packer.json
 [Vagrant]:https://www.vagrantup.com/
+[0]:https://github.com/rcousens/packer-php7-dev/blob/master/doc/00-primer-compiling-php.md
 [1]:https://github.com/rcousens/packer-php7-dev/blob/master/doc/01-running-tests.md
 [2]:https://github.com/rcousens/packer-php7-dev/blob/master/doc/02-debug-php-extension.md
 
