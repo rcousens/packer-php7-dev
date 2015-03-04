@@ -48,14 +48,15 @@ $ ./configure --flags
 $ make
 ```
 
-LCOV
-----
+Flags Of Interest
+-----------------
+
+### LCOV
 
 > Requires lcov and genhtml available on the path and gcov installed.
 
 ```sh
 $ ./configure --enable-gcov
-$ make lcov
 ```
 
 Will run tests and generate an lcov_html output directory with HTML formatted coverage results.
