@@ -30,10 +30,35 @@ Some support the shared option
 > --with-foo=shared,/path/to/lib
 
 Build Directories and Configure
--------------------------
+-------------------------------
 
 ```sh
 $ cd ~/php-src && mkdir custom-build && cd custom-build && ~/php-src/configure --my-flags
 ```
+
+Compiling
+=========
+
+Overview
+--------
+
+```sh
+$ ./buildconfig
+$ ./configure --flags
+$ make
+```
+
+LCOV
+----
+
+> Requires lcov and genhtml available on the path and gcov installed.
+
+```sh
+$ ./configure --enable-gcov
+$ make lcov
+```
+
+Will run tests and generate an lcov_html output directory with HTML formatted coverage results.
+
 
 Thanks to [@derickr](https://github.com/derickr) and [@johannes](https://github.com/johannes) for their patience and tutelage!
