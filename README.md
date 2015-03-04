@@ -70,7 +70,7 @@ $ vagrant up
 * nginx is listening on localhost port 10001.  
 * PostgreSQL is listening on localhost port 10002.
 
-A default index.php is copied that will execute phpinfo. Open up [http://localhost:10001/phpinfo.php](http://localhost:10001/phpinfo.php) in a browser to verify the virtual machine is working and PHP7 has installed correctly.
+A phpinfo.php script is copied when provisioning that will execute phpinfo. Open up [http://localhost:10001/phpinfo.php](http://localhost:10001/phpinfo.php) in a browser to verify the virtual machine is working and PHP7 has been installed correctly.
 
 To access the virtual machine:
 ```sh
