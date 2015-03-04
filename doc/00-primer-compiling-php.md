@@ -28,3 +28,12 @@ Some support the shared option
 > --enable-foo=shared
 
 > --with-foo=shared,/path/to/lib
+
+Build Directories and Configure
+-------------------------
+
+```sh
+$ cd ~/php-src && mkdir custom-build && cd custom-build && ~/php-src/configure --my-flags
+```
+
+Thanks to [@derickr](https://github.com/derickr) and [@johannes](https://github.com/johannes) for their patience and tutelage!
