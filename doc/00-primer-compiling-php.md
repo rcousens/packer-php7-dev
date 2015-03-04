@@ -51,15 +51,28 @@ $ make
 Flags Of Interest
 -----------------
 
+#### Debug
+
+Reports memory leaks through cleaning up of lost memory blocks after end of script execution and includes debugging symbols for GDB.
+
+````
+--enable-debug
+````
+
 #### GCOV
 
-> Requires lcov and genhtml available on the path and gcov installed. See [lcov state files](../salt/roots/salt/dev/lcov/init.sls).
+Requires lcov and genhtml available on the path and gcov installed. See [lcov state files](../salt/roots/salt/dev/lcov/init.sls). Enables code coverage analysis and report generation.
 
-```sh
-$ ./configure --enable-gcov
-```
+````
+--enable-gcov
+````
 
-Will run tests and generate an lcov_html output directory with HTML formatted coverage results.
+#### ZTS Maintainer
 
+Enables the zend thread safety layer, slower but useful for debugging
+
+````
+--enable-maintainer-zts
+````
 
 Thanks to [@derickr](https://github.com/derickr) and [@johannes](https://github.com/johannes) for their patience and tutelage!
