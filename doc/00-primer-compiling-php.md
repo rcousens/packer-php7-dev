@@ -53,7 +53,7 @@ Flags Of Interest
 
 #### GCOV
 
-> Requires lcov and genhtml available on the path and gcov installed. See [lcov state files](../salt/roots/salt/lcov/init.sls)
+> Requires lcov and genhtml available on the path and gcov installed. See [lcov state files](../salt/roots/salt/dev/lcov/init.sls).
 
 ```sh
 $ ./configure --enable-gcov

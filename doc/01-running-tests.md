@@ -8,7 +8,7 @@ Using make
 $ make test;
 ```
 
-To generate coverage:
+Substitute test with lcov to run tests and generate an lcov_html output directory with HTML formatted coverage results.
 
 ```sh
 $ make lcov;
