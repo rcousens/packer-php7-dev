@@ -2,8 +2,8 @@
 # vi: set ft=ruby :
 
 Vagrant.configure("2") do |config|
-  config.vm.box = "php7-dev-c7"
-  config.vm.box_url = "build/virtualbox/vagrant/php7-dev-c7-x86_64.box"
+  config.vm.box = "rcousens/php7-dev-c7"
+  # config.vm.box_url = "build/virtualbox/vagrant/php7-dev-c7-x86_64.box"
 
   config.vm.provider "virtualbox" do |v|
     v.gui = true
