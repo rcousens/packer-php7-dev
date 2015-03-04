@@ -53,7 +53,7 @@ Flags Of Interest
 
 #### Debug
 
-Reports memory leaks through cleaning up of lost memory blocks after end of script execution and includes debugging symbols for GDB.
+Reports memory leaks via detection of lost memory blocks that are cleaned up post execution. Also includes the debugging symbols for GDB.
 
 ````
 --enable-debug
@@ -69,7 +69,7 @@ Requires lcov and genhtml available on the path and gcov installed. See [lcov st
 
 #### ZTS Maintainer
 
-Enables the zend thread safety layer, slower but useful for debugging
+Enables the zend thread safety layer, slower but useful for debugging.
 
 ````
 --enable-maintainer-zts
