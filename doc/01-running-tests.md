@@ -19,6 +19,6 @@ Testing Extensions
 
 ```sh
 $ make test TESTS=ext\<name>\tests
-```sh
+```
 
-This command will take any glob for tests.
+This command will take any valid glob for tests.
