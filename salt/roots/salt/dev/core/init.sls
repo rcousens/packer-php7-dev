@@ -1,7 +1,3 @@
-include:
-  - nginx
-  - php
-
 vagrant-sudoers:
   file.managed:
     - name: /etc/sudoers.d/vagrant

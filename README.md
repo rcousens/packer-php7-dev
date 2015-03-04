@@ -84,7 +84,7 @@ TODO
 
 ## Run a website with PHP7
 
-Install your website under /srv/www/dev/web with a front controller app.php or a default file index.php.
+Install your website under /srv/www/dev/web with a front controller with the filename app.php.
 
 ## Tutorials
 * [Run the PHP7 test suite][1]

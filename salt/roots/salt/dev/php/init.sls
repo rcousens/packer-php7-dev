@@ -1,6 +1,9 @@
+include:
+  - lcov
+
 php-src:
   git.latest:
-    - name: https://github.com/php/php-src
+    - name: https://github.com/php/php-src.git
     - rev: master
     - target: /home/vagrant/php-src
     - user: vagrant
@@ -28,12 +31,13 @@ php-buildconf:
 
 php-configure:
   cmd.run:
-    - name: ./configure --enable-debug --enable-fpm --with-fpm-user=nginx --with-fpm-group=nginx --with-fpm-systemd --enable-maintainer-zts --with-openssl --prefix=/usr/local --sbindir=/usr/local/sbin --sysconfdir=/usr/local/etc
+    - name: ./configure --enable-debug --enable-fpm --with-fpm-user=nginx --with-fpm-group=nginx --with-fpm-systemd --enable-maintainer-zts --with-openssl --with-curl --enable-zip --enable-intl --enable-mbstring --enable-gcov --prefix=/usr/local --sbindir=/usr/local/sbin --sysconfdir=/usr/local/etc --with-config-file-scan-dir=/usr/local/lib/php/config
     - cwd: /home/vagrant/php-src
     - user: vagrant
     - group: vagrant
     - require:
       - cmd: php-buildconf
+      - sls: lcov
 
 php-make:
   cmd.run:
@@ -91,4 +95,17 @@ php-fpm:
     - watch:
       - file: php-fpm-service-systemd
 
+php-config-dir:
+  file:
+    - directory
+    - name: /usr/local/lib/php/config
+    - user: root
+    - group: root
+    - makedirs: true
 
+php-opcache-ini:
+  file.managed:
+    - name: /usr/local/lib/php/config/opcache.ini
+    - source: salt://_files/php/opcache.ini
+    - require:
+      - file: php-config-dir

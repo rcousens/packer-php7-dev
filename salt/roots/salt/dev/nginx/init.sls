@@ -33,7 +33,7 @@ nginx-vhost-dev:
       - file: nginx-conf
       - pkg: nginx
 
-index-php:
+nginx-phpinfo:
   file.managed:
     - name: /srv/www/dev/web/phpinfo.php
     - source: salt://_files/web/phpinfo.php
