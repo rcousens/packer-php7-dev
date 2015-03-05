@@ -16,7 +16,8 @@ $ copy ~/php-src/.gdbinit ~/.gdbinit
 
 Alternatively you can load the script into gdb at runtime:
 
-```
+```sh
+$ gdb
 (gdb) source /home/vagrant/php-src/.gdbinit
 ```
 
