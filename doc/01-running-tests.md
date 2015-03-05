@@ -7,13 +7,13 @@ Using make
 ### From /home/vagrant/php-src:
 
 ```sh
-$ make test;
+$ make test
 ```
 
 Substitute test with lcov to run tests and generate an lcov_html output directory with HTML formatted coverage results.
 
 ```sh
-$ make lcov;
+$ make lcov
 ```
 
 Using php cli
