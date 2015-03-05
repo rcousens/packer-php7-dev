@@ -98,3 +98,61 @@ Knowing that php_do_pcre_match is called, let's tell gdb we would like to break 
 
 ```
 
+After a few moments, you should see:
+
+> Breakpoint 1, php_do_pcre_match (execute_data=0x7ffff0216080, return_value=0x7ffff02159e0, global=0)
+> at /home/vagrant/php-src/ext/pcre/php_pcre.c:549
+
+Let's use the zbacktrace command to find out where we came from.
+
+```
+(gdb) zbacktrace
+[0x7ffff0216080] preg_match("/\.phpt$/", "/home/vagrant/php-src/ext/pcre/tests/preg_match_basic.phpt") [internal function]
+[0x7ffff0214030] (main) /home/vagrant/php-src/run-tests.php:773 
+```
+
+The above output shows that we are yet to reach our unit test, as preg_match is used by the run-tests.php script to locate .phpt files. Let's continue execution:
+
+```
+(gdb) continue
+...
+(gdb) zbacktrace
+```
+
+More of the same. Let's try another approach, looking at the source for php_pcre.c, we see that php_do_pcre_match calls another function php_pcre_match_impl after parsing the arguments from the zend engine. We know the string that's the subject for evaluation, let's see if we can use the argument subject to php_pcre_match_impl to catch it.
+
+We'll delete the existing breakpoint first:
+
+```
+(gdb) delete 1
+```
+
+Now let's set a conditional breakpoint in the second function:
+
+```
+(gdb) break php_pcre_match_impl if subject = "Hello, world. [*], this is \ a string"
+(gdb) continue
+```
+
+Success!
+
+> Breakpoint 2, php_pcre_match_impl (pce=0x1a98b90, subject=0x1a98f00 "Hello, world. [*], this is  a string",
+> subject_len=50, return_value=0x7ffff0216cb0, subpats=0x7ffff0201dd0, global=0, use_flags=0, flags=0,
+> start_offset=0) at /home/vagrant/php-src/ext/pcre/php_pcre.c:585
+
+Let's have a look at what's happening inside this function:
+
+```
+(gdb) info args
+...
+(gdb) info local
+```
+
+The args output clearly shows the string we were looking for. Local shows the variables in scope for the current function. Now we can start stepping through the code and find out how php_pcre_match_impl works.
+
+```
+(gdb) next
+```
+
+
+
