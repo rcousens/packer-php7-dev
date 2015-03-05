@@ -24,7 +24,7 @@ If you do not wish to build the box from source, a pre-built VirtualBox image th
 
 > [SaltStack] is an extremely fast and scalable systems and configuration management software for predictive orchestration, cloud and data center automation, server provisioning, application deployment and more.
 
-## Configuration Files
+### Configuration Files
 
 #### Anaconda KickStarter
 
@@ -34,7 +34,7 @@ Specifies the CentOS 7 installation options and prepares passwordless sudo for v
 
 Installs VirtualBox Guest additions and cleans up post installation. See [scripts] directory and [packer.json].
 
-## Included Components
+### Included Components
 
 #### PHP7
 
@@ -51,8 +51,7 @@ PostgreSQL is configured to accept md5 connections from all hosts (I will tighte
 Instructions
 ------------
 
-## Quick Setup
-
+### Quick Setup
 
 #### Requirements
 * [VirtualBox]
