@@ -140,19 +140,36 @@ Success!
 > subject_len=50, return_value=0x7ffff0216cb0, subpats=0x7ffff0201dd0, global=0, use_flags=0, flags=0,
 > start_offset=0) at /home/vagrant/php-src/ext/pcre/php_pcre.c:585
 
-Let's have a look at what's happening inside this function:
+Let's have a look at what's happening inside this function and start execution line by line:
 
 ```
 (gdb) info args
 ...
 (gdb) info local
-```
-
-The args output clearly shows the string we were looking for. Local shows the variables in scope for the current function. Now we can start stepping through the code and find out how php_pcre_match_impl works.
-
-```
+...
 (gdb) next
+...
 ```
+
+The args output clearly shows the string we were looking for. Local shows the variables in scope for the current function. The next command allows us to execute the next line of source code. Now we can start stepping through the code and find out how php_pcre_match_impl works. Looking at the source, we can see a call to a library function pcre_exec at line 688. Let's break there.
+
+```
+(gdb) break 688
+(gdb) continue
+(gdb) step
+```
+
+The step command lets us step inside the function call to pcre_exec and see what it does.
+
+Using next and step, you can proceed to the next line of code, or step inside a function call. To exit the current function and see the returned results from pcre_exec, we can use finish.
+
+```
+(gdb) finish
+```
+
+Now we're back from the call to count = pcre_exec(...), let's look at the result.
+
+
 
 
 
