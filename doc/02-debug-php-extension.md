@@ -10,7 +10,7 @@ GDB, or the GNU Project Debugger, allows you to debug a program while it is exec
 
 [GDB Reference Documentation](https://sourceware.org/gdb/current/onlinedocs/gdb/)
 
-### Configuring GDB
+#### Configuring GDB
 
 Let's get started by changing to the php-src directory
 
@@ -44,11 +44,11 @@ $ gdb
 
 Of particular interest is zbacktrace which enables one to backtrace from C to PHP.
 
-### Debugging the PCRE extension
+#### Debugging the PCRE extension
 
 To familiarise ourselves with GDB and its commands available for debugging we will step through a PHP PCRE extension test.
 
-#### Setup the PHP test executable
+##### Setup the PHP test executable
 
 The run-tests.php script relies on an environment variable TEST_PHP_EXECUTABLE to be defined and set to the appropriate PHP CLI bin. 
 
@@ -58,7 +58,7 @@ Let's configure that now:
 $ export TEST_PHP_EXECUTABLE=sapi/cli/php
 ```
 
-#### Loading GDB
+##### Loading GDB
 
 Now let's load gdb and tell it the program we intend to execute:
 
@@ -66,7 +66,7 @@ Now let's load gdb and tell it the program we intend to execute:
 $ gdb --args sapi/cli/php run-tests.php ext/pcre/tests/preg_match_basic.phpt
 ```
 
-#### Breaking in GDB from PHP Function calls
+##### Breaking in GDB from PHP Function calls
 
 The PHP function we intend to examine is preg_match() and is defined in the ext/pcre/php_pcre.c file as a static PHP_FUNCTION wrapper around another static function php_do_pcre_match.
 
@@ -97,6 +97,4 @@ Knowing that php_do_pcre_match is called, let's tell gdb we would like to break 
 (gdb) run
 
 ```
-
-
 
