@@ -26,29 +26,27 @@ If you do not wish to build the box from source, a pre-built VirtualBox image th
 
 ## Configuration Files
 
-### Anaconda KickStarter
+#### Anaconda KickStarter
 
 Specifies the CentOS 7 installation options and prepares passwordless sudo for vagrant. See [ks.cfg].
 
-### Packer Provisioning
+#### Packer Provisioning
 
 Installs VirtualBox Guest additions and cleans up post installation. See [scripts] directory and [packer.json].
 
 ## Included Components
 
-### PHP7
+#### PHP7
 
 PHP7 is the next major release version of PHP. It includes significant performance improvements and additions to the language.
 
-### nginx
+#### nginx
 
 Nginx is installed and configured to serve a website from /srv/www/dev/web. The default dev.conf in /etc/nginx/conf.d/dev.conf contains the configuration.
 
-### PostgreSQL
+#### PostgreSQL
 
 PostgreSQL is configured to accept md5 connections from all hosts (I will tighten the security up in the future) with a superuser configured with the login dbuser and password dbuser.
-
----
 
 Instructions
 ------------
@@ -56,11 +54,11 @@ Instructions
 ## Quick Setup
 
 
-### Requirements
+#### Requirements
 * [VirtualBox]
 * [Vagrant]
 
-### Getting Started
+#### Getting Started
 
 Clone this repo into a local directory:
 ```sh
@@ -71,13 +69,13 @@ Change directory to where the repo was cloned and launch the vagrant box:
 $ vagrant up
 ```
 
-#### From the host machine:  
+##### From the host machine:  
 * nginx is listening on localhost port 10001.  
 * PostgreSQL is listening on localhost port 10002.
 
 A phpinfo.php script is copied when provisioning that will execute phpinfo. Open up [http://localhost:10001/phpinfo.php](http://localhost:10001/phpinfo.php) in a browser to verify the virtual machine is working and PHP7 has been installed correctly.
 
-#### To access the virtual machine:
+##### To access the virtual machine:
 ```sh
 $ vagrant ssh
 ```
@@ -89,11 +87,11 @@ TODO
 Things You Can Do
 -----------------
 
-## Run a website with PHP7
+### Run a website with PHP7
 
 Install your website under /srv/www/dev/web with a front controller with the filename app.php.
 
-## Tutorials
+### Tutorials
 * [Compiling PHP Primer][0]
 * [Run the PHP7 test suite][1]
 * [Debug a PHP extension][2]
