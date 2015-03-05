@@ -1,6 +1,8 @@
 PHP 7 Development Box
 =====================
 
+Overview
+--------
 
 This repository houses the configuration scripts necessary to build a CentOS 7 based box suitable for PHP7 testing and extension development.
 
@@ -48,6 +50,8 @@ Nginx is installed and configured to serve a website from /srv/www/dev/web. The 
 
 PostgreSQL is configured to accept md5 connections from all hosts (I will tighten the security up in the future) with a superuser configured with the login dbuser and password dbuser.
 
+---
+
 Instructions
 ------------
 
@@ -79,9 +83,11 @@ A phpinfo.php script is copied when provisioning that will execute phpinfo. Open
 $ vagrant ssh
 ```
 
-Build Box Yourself
-------------------
+### Build Box Yourself
+
 TODO
+
+---
 
 Things You Can Do
 -----------------
