@@ -82,6 +82,10 @@ Where int(1) signifies preg_match returning true for a match, with an array(1) o
 
 Knowing that php_do_pcre_match is called, let's tell gdb we would like to break on invocation of php_do_pcre_match and then run the test.
 
+TODO: more info on breakpoint formats.
+
+###### Setting Breakpoints
+
 ```sh
 (gdb) break php_do_pcre_match
 (gdb) run
@@ -104,6 +108,8 @@ Let's use the zbacktrace command to find out where we came from.
 ```
 
 The above output shows that we are inside the first assertion of our unit test trying to match the word Hello/hello at the start of a string against our subject "Hello, world. [4], this is \ a string".
+
+###### Program Execution Flow
 
 Running next allows us to move line by line through the execution of the original source code. Enter next a few times until you reach a function invocation that looks like this:
 
@@ -129,6 +135,8 @@ php_pcre_match_impl (pce=0x1a98b70, subject=0x7ffff02028b8 "Hello, world. [*], t
 Now we are inside the lowest level of the extension that wraps about the PCRE library. Looking at the source for php_pcre.c, we see that php_do_pcre_match calls another function php_pcre_match_impl after parsing the arguments from the Zend VM. We know the string that's the subject for evaluation, let's see if we can use the argument subject to php_pcre_match_impl to catch it.
 
 In GDB a break can take a conditional argument. Knowing that a string starting with the character 'H' is the subject for our unit tests, let's try and break on that condition. To do so we'll kill the current running program, delete the existing breakpoint and create a new conditional one.
+
+###### Stopping Execution and Breakpoints
 
 ```
 (gdb) kill
@@ -186,6 +194,9 @@ Once we're done debugging the pcre_exec call, to return from the current functio
 ```
 
 Now we're back from the call to count = pcre_exec(...), let's look at the result.
+
+###### Exploring Variables and Types
+
 
 ```
 Run till exit from #0  php_pcre_exec (argument_re=0x1a98a00, extra_data=0x1a98a80, 
@@ -337,6 +348,8 @@ $21 = {{72 'H'}, {101 'e'}, {108 'l'}, {108 'l'}, {111 'o'}, {44 ','}, {32 ' '}}
 ```
 
 And there it is, our match "Hello, " being returned to PHP.
+
+### Summary
 
 What have we learnt? Zval's are just a struct that contain's a zend_value, and a zend_value is a generic data type that can represent any PHP value. A PHP array consists of a "bucket" structure (among other things), which is ultimately just a reference to another zval (i.e. any type). 
 
