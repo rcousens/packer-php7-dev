@@ -4,12 +4,16 @@ PHP 7 Development Box
 Overview
 --------
 
-This repository houses the configuration scripts necessary to build a CentOS 7 based box suitable for PHP7 testing and extension development.
+This repository houses the configuration scripts necessary to build a CentOS 7 based box suitable for PHP7 testing and extension development. Additionally, a Vagrantfile is included that will launch an already built box by downloading it from Atlas should you wish to forego making your own box.
 
- - Clones latest PHP repository on master branch 
- - Builds from source
- - Installs the compiled binaries as SAPI FPM
- - Includes nginx and PostgreSQL
+Upon boot, the Vagrant Salt provisioner will:
+
+ - Clone latest PHP source repository from the master branch 
+ - Build PHP from source with debug information and gcov
+ - Installs the compiled PHP binaries as SAPI FPM
+ - Include nginx and PostgreSQL preconfigured for development testing
+
+Coming soon: an alternative build for production testing.
 
 The configuration is defined in Salt state files. The Salt provisioner can either be run by Packer to generate your own box or by Vagrant to ensure an existing box is running the latest specification. To build the box from scratch yourself, you will require a CentOS 7 ISO that has the minimum software as specified in the kickstarter config or if your internet connection is sufficiently fast you could point it to an ISO image to download.
 
