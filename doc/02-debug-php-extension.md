@@ -208,4 +208,140 @@ Value returned is $4 = 1
 
 Excellent, so our library functino pcre_exec correctly found 1 match for the regular expression against the subject and returned the result to the local variable count in the php_pcre_match_impl function.
 
+Let's learn how unpack some internal zend engine data types to look at the results being returned back to PHP. First, let's finish the current php_pcre_match_impl function and get back to our entry point, php_do_pcre_match.
 
+```
+(gdb) finish
+Run till exit from #0  php_pcre_match_impl (pce=0x1a98b70, subject=0x7ffff02028b8 "Hello, 
+    world. [*], this is \\ a string", subject_len=37, return_value=0x7ffff0214100, 
+    subpats=0x7ffff02010e8, global=0, use_flags=0, flags=0, start_offset=0)
+  at /home/vagrant/php-src/ext/pcre/php_pcre.c:585
+0x0000000000585a5c in php_do_pcre_match (execute_data=0x7ffff0214260, return_value=0x7ffff0214100, 
+    global=0) 
+  at /home/vagrant/php-src/ext/pcre/php_pcre.c:574
+```
+
+The above message indicates we've returned back to php_do_pcre_match, let's investigate the local variables available to us.
+
+```
+(gdb) info locals
+regex = 0x7ffff0264dc0
+subject = 0x7ffff02028a0
+pce = 0x1a98b70
+subpats = 0x7ffff02010e8
+flags = 0
+start_offset = 0
+__PRETTY_FUNCTION__ = "php_do_pcre_match"
+```
+
+We know that the 3rd argument of preg_match takes a variable to return an array of the matches as subpatterns. The results are held in the subpats* pointer, let's find out more about it.
+
+First, let's find out the type of subpats using the ptype command.
+
+```
+(gdb) ptype subpats
+type = struct _zval_struct {
+    zend_value value;
+    union {
+        struct {...} v;
+        uint32_t type_info;
+    } u1;
+    union {
+        uint32_t var_flags;
+        uint32_t next;
+        uint32_t cache_slot;
+        uint32_t lineno;
+        uint32_t num_args;
+        uint32_t fe_pos;
+        uint32_t fe_iter_idx;
+    } u2;
+} *
+```
+
+The above output indicates that subpats is a pointer to a _zval_struct that holds a zend_value type named value. What's a zend_value? It's the generic data type PHP uses internally for most of its primitives.
+
+We can find out more information about zend_value using the same ptype command. Note, that we can query the type directly or a variable of that type. I.e. ptype zend_value would return the same information.
+
+```
+(gdb) ptype subpats->value
+type = union _zend_value {
+    zend_long lval;
+    double dval;
+    zend_refcounted *counted;
+    zend_string *str;
+    zend_array *arr;
+    zend_object *obj;
+    zend_resource *res;
+    zend_reference *ref;
+    zend_ast_ref *ast;
+    zval *zv;
+    void *ptr;
+    zend_class_entry *ce;
+    zend_function *func;
+    struct {
+        uint32_t w1;
+        uint32_t w2;
+    } ww;
+}
+```
+
+The above exposes the generic data structure PHP uses internally for holding values. We know the return type is an array, so we expect zend_array *arr to hold our information.
+
+Next, we print the type of a zend_array.
+
+```
+(gdb) ptype subpats->value->arr
+type = struct _zend_array {
+    zend_refcounted gc;
+    union {
+        struct {...} v;
+        uint32_t flags;
+    } u;
+    uint32_t nTableSize;
+    uint32_t nTableMask;
+    uint32_t nNumUsed;
+    uint32_t nNumOfElements;
+    uint32_t nInternalPointer;
+    zend_long nNextFreeElement;
+    Bucket *arData;
+    uint32_t *arHash;
+    dtor_func_t pDestructor;
+} *
+```
+
+Aha! PHP uses a 'bucket' concept to store it's array data. We expected 1 match from our unit test on the word 'Hello', let's find out how many items are in the subpats array.
+
+```
+(gdb) print subpats->value->arr->nNumOfElements
+$1 = 1
+```
+So there is one element in our array, presumably held in the arData pointer to a Bucket. Let's find out more about the structure of a Bucket type by querying the type directly instead of the arData pointer.
+
+```
+(gdb) ptype Bucket
+type = struct _Bucket {
+    zval val;
+    zend_ulong h;
+    zend_string *key;
+}
+```
+
+So a Bucket consists of a val and a key. A zval has a value that's a zend_value, and we know the array result should contain a string for the subpattern match. Therefore subpats->value->arr->arData->val->value->str should be a zend_string with a length property and a char val.
+
+```
+(gdb) print subpats->value->arr->arData->val->value->str->len
+$2 = 7
+```
+
+So our result has a length of 7. Let's look at the result itself. GDB print command (or p or x) has a number of additional and useful features. First, we can specify the output format, and for arrays we can pass our length using the @ operator.
+
+```
+(gdb) print/c subpats->value->arr->arData->val->value->str->val@7
+$21 = {{72 'H'}, {101 'e'}, {108 'l'}, {108 'l'}, {111 'o'}, {44 ','}, {32 ' '}}
+```
+
+And there it is, our match "Hello, " being returned to PHP.
+
+
+
+Let's find out what the string contains
