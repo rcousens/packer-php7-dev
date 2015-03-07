@@ -86,7 +86,7 @@ TODO: more info on breakpoint formats.
 
 #### Setting Breakpoints
 
-```sh
+```
 (gdb) break php_do_pcre_match
 (gdb) run
 
