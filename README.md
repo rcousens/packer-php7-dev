@@ -4,7 +4,7 @@ PHP 7 Development Box
 Overview
 --------
 
-This repository houses the configuration scripts necessary to build a CentOS 7 based box suitable for PHP7 testing and extension development. Additionally, a Vagrantfile is included that will launch an already built box by downloading it from Atlas should you wish to forego making your own box.
+This repository houses the configuration scripts necessary to build a CentOS 7 based box suitable for PHP7 testing and extension development. Additionally, a Vagrantfile is included that will launch an already built box by downloading it from [Atlas] should you wish to forego making your own box.
 
 Upon boot, the Vagrant Salt provisioner will:
 
@@ -121,6 +121,7 @@ MIT
 
 [Packer]:https://www.packer.io/
 [SaltStack]:http://saltstack.com/
+[Atlas]:https://atlas.hashicorp.com/rcousens/boxes/php7-dev-c7
 [ks.cfg]:https://github.com/rcousens/packer-php7-dev/blob/master/packer/http/ks.cfg
 [scripts]:https://github.com/rcousens/packer-php7-dev/tree/master/packer/scripts
 [packer.json]:https://github.com/rcousens/packer-php7-dev/blob/master/packer/packer.json
