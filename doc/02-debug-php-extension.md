@@ -234,7 +234,7 @@ We know that the 3rd argument of preg_match takes a variable to return an array 
 
 First, let's find out the type of subpats using the ptype command.
 
-```
+```c
 (gdb) ptype subpats
 type = struct _zval_struct {
     zend_value value;
@@ -258,7 +258,7 @@ The above output indicates that subpats is a pointer to a _zval_struct that hold
 
 We can find out more information about zend_value using the same ptype command. Note, that we can query the type directly or a variable of that type. I.e. ptype zend_value would return the same information.
 
-```
+```c
 (gdb) ptype subpats->value
 type = union _zend_value {
     zend_long lval;
@@ -285,7 +285,7 @@ The above exposes the generic data structure PHP uses internally for holding val
 
 Next, we print the type of a zend_array.
 
-```
+```c
 (gdb) ptype subpats->value->arr
 type = struct _zend_array {
     zend_refcounted gc;
@@ -313,7 +313,7 @@ $1 = 1
 ```
 So there is one element in our array, presumably held in the arData pointer to a Bucket. Let's find out more about the structure of a Bucket type by querying the type directly instead of the arData pointer.
 
-```
+```c
 (gdb) ptype Bucket
 type = struct _Bucket {
     zval val;
