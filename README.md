@@ -105,11 +105,11 @@ Note: you may want to edit the packer.json and point it at a valid CentOS iso.
 Things You Can Do
 -----------------
 
-### Run a website with PHP7
+### Host a PHP7 website
 
 Install your website under /srv/www/dev/web with a front controller with the filename app.php.
 
-### Tutorials
+### Advanced PHP and Debugging Tutorials
 * [Compiling PHP Primer][0]
 * [Run the PHP7 test suite][1]
 * [Debug a PHP extension][2]
