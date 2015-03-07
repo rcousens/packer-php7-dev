@@ -40,7 +40,7 @@ To view the available commands once the .gdbinit script is loaded provided try t
 
 Of particular interest is zbacktrace which enables one to backtrace from C to PHP.
 
-#### Debugging the PCRE extension
+#### Debugging a PCRE extension
 
 To familiarise ourselves with GDB and its commands available for debugging we will step through a PHP PCRE extension test.
 
@@ -95,7 +95,8 @@ TODO: more info on breakpoint formats.
 After a few moments, you should see something similar to:
 
 ```
-Breakpoint 1, php_do_pcre_match (execute_data=0x7ffff0214260, return_value=0x7ffff0214100, global=0) 
+Breakpoint 1, php_do_pcre_match (execute_data=0x7ffff0214260, return_value=0x7ffff0214100, 
+    global=0) 
   at /home/vagrant/php-src/ext/pcre/php_pcre.c:549
 ```
 
@@ -103,7 +104,8 @@ Let's use the zbacktrace command to find out where we came from.
 
 ```
 (gdb) zbacktrace
-[0x7ffff0214260] preg_match("/^[hH]ello,\s/", "Hello,\40world.\40[*],\40this\40is\40\\40a\40string", reference) [internal function]
+[0x7ffff0214260] preg_match("/^[hH]ello,\s/", "Hello,\40world.\40[*],\40this\40is\40\\40
+    a\40string", reference) [internal function]
 [0x7ffff0214030] (main) /home/vagrant/php-src/ext/pcre/tests/preg_match_basic.phpt:10 
 ```
 
@@ -223,8 +225,8 @@ Run till exit from #0  php_pcre_match_impl (pce=0x1a98b70, subject=0x7ffff02028b
     world. [*], this is \\ a string", subject_len=37, return_value=0x7ffff0214100, 
     subpats=0x7ffff02010e8, global=0, use_flags=0, flags=0, start_offset=0)
   at /home/vagrant/php-src/ext/pcre/php_pcre.c:585
-0x0000000000585a5c in php_do_pcre_match (execute_data=0x7ffff0214260, return_value=0x7ffff0214100, 
-    global=0) 
+0x0000000000585a5c in php_do_pcre_match (execute_data=0x7ffff0214260, 
+    return_value=0x7ffff0214100, global=0) 
   at /home/vagrant/php-src/ext/pcre/php_pcre.c:574
 ```
 
