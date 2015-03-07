@@ -346,3 +346,7 @@ What have we learnt? Zval's are just a struct that contain's a zend_value, and a
 
 We have a zval -> zend_value -> array -> bucket -> zval -> zend_value -> str where our subpattern match is held.
 
+As a final note, it's important to know that all PHP functions are exposed to GDB through a symbol table that prefixes them with zif_. For example, we could have chosen to break on zif_preg_match insterad of php_do_pcre_match initially. This would have broken at the static function wrapper around php_do_pcre_match. Global object functions are exposed under the zim_ prefix with the pattern zim_classname_methodname.
+
+Happy debugging!
+
