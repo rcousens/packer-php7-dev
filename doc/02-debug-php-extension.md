@@ -267,7 +267,7 @@ type = struct _zval_struct {
 } *
 ```
 
-The above output indicates that subpats is a pointer to a _zval_struct that holds a zend_value type named value. What's a zend_value? It's the generic data type PHP uses internally for most of its primitives.
+The above output indicates that subpats is a pointer to a _zval_struct that holds a zend_value type named value. What's a zend_value? It's the generic data type PHP uses internally for most of its scalars/primitives.
 
 We can find out more information about zend_value using the same ptype command. Note, that we can query the type directly or a variable of that type. I.e. ptype zend_value would return the same information.
 
