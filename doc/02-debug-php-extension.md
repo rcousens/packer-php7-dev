@@ -56,7 +56,7 @@ Now let's load gdb and tell it we intend to run the phpt test file by executing 
 $ gdb --args sapi/cli/php ext/pcre/tests/preg_match_basic.phpt
 ```
 
-#### Breaking in GDB from PHP Function calls
+#### PHP Function calls
 
 The PHP function we intend to examine is preg_match() and is defined in the ext/pcre/php_pcre.c file as a static PHP_FUNCTION wrapper around another static function php_do_pcre_match.
 
