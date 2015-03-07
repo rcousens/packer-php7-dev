@@ -109,7 +109,7 @@ Let's use the zbacktrace command to find out where we came from.
 [0x7ffff0214030] (main) /home/vagrant/php-src/ext/pcre/tests/preg_match_basic.phpt:10 
 ```
 
-The above output shows that we are inside the first assertion of our unit test trying to match the word Hello/hello at the start of a string against our subject "Hello, world. [4], this is \ a string".
+The above output shows that we are inside the the function that generates the output that will be used as a comparison for the first assertion of our unit test. The first unit test in the preg_match_basic.phpt file tries to find matches based on the regex "/^[hH]ello,\s/" against our subject string "Hello, world. [4], this is \ a string".
 
 #### Program Execution Flow
 
