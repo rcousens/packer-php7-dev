@@ -26,19 +26,15 @@ $ copy .gdbinit ~
 
 Alternatively you can load the script into gdb at runtime:
 
-```sh
-$ gdb
-...
+```
 (gdb) source /home/vagrant/php-src/.gdbinit
 ```
 
 The .gdbinit script provides a number of commands within gdb that are helpful when debugging extensions.
 
-To view the commands provided try the following:
+To view the available commands once the .gdbinit script is loaded provided try the following:
 
-```sh
-$ gdb
-...
+```
 (gdb) help user-defined
 ```
 
