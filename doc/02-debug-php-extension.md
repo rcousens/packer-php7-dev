@@ -212,7 +212,7 @@ Run till exit from #0  php_pcre_exec (argument_re=0x1a98a00, extra_data=0x1a98a8
   at /home/vagrant/php-src/ext/pcre/php_pcre.c:688
 
 688  count = pcre_exec(pce->re, extra, subject, (int)subject_len, (int)start_offset,
-Value returned is $4 = 1
+Value returned is $1 = 1
 ```
 
 Excellent, so our library function pcre_exec correctly found 1 match for the regular expression against the subject and returned the result to the local variable count in the php_pcre_match_impl function.
@@ -322,7 +322,7 @@ Aha! PHP uses a 'bucket' concept to store it's array data. We expected 1 match f
 
 ```
 (gdb) print subpats->value->arr->nNumOfElements
-$1 = 1
+$2 = 1
 ```
 So there is one element in our array, presumably held in the arData pointer to a Bucket. Let's find out more about the structure of a Bucket type by querying the type directly instead of the arData pointer.
 
@@ -339,14 +339,14 @@ So a Bucket consists of a val and a key. A zval has a value that's a zend_value,
 
 ```
 (gdb) print subpats->value->arr->arData->val->value->str->len
-$2 = 7
+$3 = 7
 ```
 
 So our result has a length of 7. Let's look at the result itself. GDB print command (or p or x) has a number of additional and useful features. First, we can specify the output format, and for arrays we can pass our length using the @ operator.
 
 ```
 (gdb) print/c subpats->value->arr->arData->val->value->str->val@7
-$3 = {{72 'H'}, {101 'e'}, {108 'l'}, {108 'l'}, {111 'o'}, {44 ','}, {32 ' '}}
+$4 = {{72 'H'}, {101 'e'}, {108 'l'}, {108 'l'}, {111 'o'}, {44 ','}, {32 ' '}}
 ```
 
 You can also use the x command to inspect variables/memory
