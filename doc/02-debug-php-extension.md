@@ -48,22 +48,16 @@ Of particular interest is zbacktrace which enables one to backtrace from C to PH
 
 To familiarise ourselves with GDB and its commands available for debugging we will step through a PHP PCRE extension test.
 
-##### Setup the PHP test executable
+##### PHP Tests Wrapper
 
-The run-tests.php script relies on an environment variable TEST_PHP_EXECUTABLE to be defined and set to the appropriate PHP CLI bin. 
-
-Let's configure that now:
-
-```sh
-$ export TEST_PHP_EXECUTABLE=sapi/cli/php
-```
+The run-tests.php script locates test files and then creates a unique shell script to execute each one in a pristine context. To avoid the complexity and overhead of dealing with GDB and fork/exec, we will run our test directly and bypass the run-tests.php script.
 
 ##### Loading GDB
 
-Now let's load gdb and tell it the program we intend to execute:
+Now let's load gdb and tell it we intend to run the phpt test file by executing the PHP CLI binary with an argument to its location:
 
 ```sh
-$ gdb --args sapi/cli/php run-tests.php ext/pcre/tests/preg_match_basic.phpt
+$ gdb --args sapi/cli/php ext/pcre/tests/preg_match_basic.phpt
 ```
 
 ##### Breaking in GDB from PHP Function calls
@@ -98,28 +92,56 @@ Knowing that php_do_pcre_match is called, let's tell gdb we would like to break 
 
 ```
 
-After a few moments, you should see:
+After a few moments, you should see something similar to:
 
-> Breakpoint 1, php_do_pcre_match (execute_data=0x7ffff0216080, return_value=0x7ffff02159e0, global=0)
-> at /home/vagrant/php-src/ext/pcre/php_pcre.c:549
+> Breakpoint 1, php_do_pcre_match (execute_data=0x7ffff0214260, return_value=0x7ffff0214100, global=0) at
+> /home/vagrant/php-src/ext/pcre/php_pcre.c:549
 
 Let's use the zbacktrace command to find out where we came from.
 
 ```
 (gdb) zbacktrace
-[0x7ffff0216080] preg_match("/\.phpt$/", "/home/vagrant/php-src/ext/pcre/tests/preg_match_basic.phpt") [internal function]
-[0x7ffff0214030] (main) /home/vagrant/php-src/run-tests.php:773 
+[0x7ffff0214260] preg_match("/^[hH]ello,\s/", "Hello,\40world.\40[*],\40this\40is\40\\40a\40string", reference) [internal function]
+[0x7ffff0214030] (main) /home/vagrant/php-src/ext/pcre/tests/preg_match_basic.phpt:10 
 ```
 
-The above output shows that we are yet to reach our unit test, as preg_match is used by the run-tests.php script to locate .phpt files. Let's continue execution:
+The above output shows that we are inside the first assertion of our unit test trying to match the word Hello/hello at the start of a string against our subject "Hello, world. [4], this is \ a string".
+
+Let's see what this function does:
 
 ```
-(gdb) continue
+(gdb) next
 ...
-(gdb) zbacktrace
+(gdb) next
+...
 ```
 
-More of the same. Let's try another approach, looking at the source for php_pcre.c, we see that php_do_pcre_match calls another function php_pcre_match_impl after parsing the arguments from the zend engine. We know the string that's the subject for evaluation, let's see if we can use the argument subject to php_pcre_match_impl to catch it.
+Running next allows us to move line by line through the execution of the original source code. After a few next calls, we reach a function invocation that looks like this:
+
+```
+(gdb) next
+        php_pcre_match_impl(pce, subject->val, (int)subject->len, return_value, subpats, ...
+```
+
+In GDB, we can step inside any function call. The 'next' command by default steps over where as 'step' allows us to follow the execution path.
+
+Let's step inside! For function calls that span multiple lines in the source file, you may have to call step a few times.
+
+```
+(gdb) step
+...
+(gdb) step
+php_pcre_match_impl (pce=0x1a98b70, subject=0x7ffff02028b8 "Hello, world. [*], this is \\ a string", subject_len=37, return_value=0x7ffff0214100, subpats=0x7ffff02010e8, global=0, use_flags=0, flags=0, start_offset=0) at /home/vagrant/php-src/ext/pcre/php_pcre.c:585
+```
+
+Now we are inside the lowest level of the extension that wraps about the PCRE library. Looking at the source for php_pcre.c, we see that php_do_pcre_match calls another function php_pcre_match_impl after parsing the arguments from the Zend VM. We know the string that's the subject for evaluation, let's see if we can use the argument subject to php_pcre_match_impl to catch it.
+
+Let's try and find a way to break there conditionally, based on the arugments being passed in for our first unit tests. We'll kill the current running program, and try a new breakpoint.
+
+```
+(gdb) kill
+Kill the program being debugged? (y or n) y
+```
 
 We'll delete the existing breakpoint first:
 
@@ -127,10 +149,10 @@ We'll delete the existing breakpoint first:
 (gdb) delete 1
 ```
 
-Now let's set a conditional breakpoint in the second function:
+Now let's set a conditional breakpoint in the lower level function we stepped into before:
 
 ```
-(gdb) break php_pcre_match_impl if subject == "Hello, world. [*], this is \ a string"
+(gdb) break php_pcre_match_impl if subject[0] == 'H'
 (gdb) continue
 ```
 
