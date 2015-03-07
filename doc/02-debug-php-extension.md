@@ -95,16 +95,15 @@ Knowing that php_do_pcre_match is called, let's tell gdb we would like to break 
 After a few moments, you should see something similar to:
 
 ```
-Breakpoint 1, php_do_pcre_match (execute_data=0x7ffff0214260, return_value=0x7ffff0214100, global=0) at
-  /home/vagrant/php-src/ext/pcre/php_pcre.c:549
+Breakpoint 1, php_do_pcre_match (execute_data=0x7ffff0214260, return_value=0x7ffff0214100, global=0) 
+  at /home/vagrant/php-src/ext/pcre/php_pcre.c:549
 ```
 
 Let's use the zbacktrace command to find out where we came from.
 
 ```
 (gdb) zbacktrace
-[0x7ffff0214260] preg_match("/^[hH]ello,\s/", "Hello,\40world.\40[*],\40this\40is\40\\40a\40string", reference)
-    [internal function]
+[0x7ffff0214260] preg_match("/^[hH]ello,\s/", "Hello,\40world.\40[*],\40this\40is\40\\40a\40string", reference) [internal function]
 [0x7ffff0214030] (main) /home/vagrant/php-src/ext/pcre/tests/preg_match_basic.phpt:10 
 ```
 
@@ -125,9 +124,10 @@ Let's step inside! For function calls that span multiple lines in the source fil
 (gdb) step
 ...
 (gdb) step
-php_pcre_match_impl (pce=0x1a98b70, subject=0x7ffff02028b8 "Hello, world. [*], this is \\ a string",
-    subject_len=37, return_value=0x7ffff0214100, subpats=0x7ffff02010e8, global=0, use_flags=0, flags=0,
-    start_offset=0) at /home/vagrant/php-src/ext/pcre/php_pcre.c:585
+php_pcre_match_impl (pce=0x1a98b70, subject=0x7ffff02028b8 "Hello, world. [*], this is \\ 
+    a string", subject_len=37, return_value=0x7ffff0214100, subpats=0x7ffff02010e8, global=0, 
+    use_flags=0, flags=0, start_offset=0) 
+  at /home/vagrant/php-src/ext/pcre/php_pcre.c:585
 ```
 
 Now we are inside the lowest level of the extension that wraps about the PCRE library. Looking at the source for php_pcre.c, we see that php_do_pcre_match calls another function php_pcre_match_impl after parsing the arguments from the Zend VM. We know the string that's the subject for evaluation, let's see if we can use the argument subject to php_pcre_match_impl to catch it.
@@ -155,9 +155,9 @@ Now let's set a conditional breakpoint in the lower level function we stepped in
 Success!
 
 ```
-Breakpoint 2, php_pcre_match_impl (pce=0x1a98b70, subject=0x7ffff02028b8 "Hello, world. [*], this is \\ a string",
-    subject_len=37, return_value=0x7ffff0214100, subpats=0x7ffff02010e8, global=0, use_flags=0, flags=0,
-    start_offset=0)
+Breakpoint 2, php_pcre_match_impl (pce=0x1a98b70, subject=0x7ffff02028b8 "Hello, world. [*], 
+    this is \\ a string", subject_len=37, return_value=0x7ffff0214100, subpats=0x7ffff02010e8, 
+    global=0, use_flags=0, flags=0, start_offset=0)
   at /home/vagrant/php-src/ext/pcre/php_pcre.c:585
 ```
 
@@ -202,7 +202,7 @@ Run till exit from #0  php_pcre_exec (argument_re=0x1a98a00, extra_data=0x1a98a8
     subpats=0x7ffff02010e8, global=0, use_flags=0, flags=0, start_offset=0)
   at /home/vagrant/php-src/ext/pcre/php_pcre.c:688
 
-688                     count = pcre_exec(pce->re, extra, subject, (int)subject_len, (int)start_offset,
+688  count = pcre_exec(pce->re, extra, subject, (int)subject_len, (int)start_offset,
 Value returned is $4 = 1
 ```
 
