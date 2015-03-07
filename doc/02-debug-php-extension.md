@@ -346,7 +346,7 @@ So our result has a length of 7. Let's look at the result itself. GDB print comm
 
 ```
 (gdb) print/c subpats->value->arr->arData->val->value->str->val@7
-$21 = {{72 'H'}, {101 'e'}, {108 'l'}, {108 'l'}, {111 'o'}, {44 ','}, {32 ' '}}
+$3 = {{72 'H'}, {101 'e'}, {108 'l'}, {108 'l'}, {111 'o'}, {44 ','}, {32 ' '}}
 ```
 
 And there it is, our match "Hello, " being returned to PHP.
