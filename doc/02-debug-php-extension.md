@@ -89,7 +89,6 @@ TODO: more info on breakpoint formats.
 ```
 (gdb) break php_do_pcre_match
 (gdb) run
-
 ```
 
 After a few moments, you should see something similar to:
@@ -217,7 +216,7 @@ Value returned is $1 = 1
 
 Excellent, so our library function pcre_exec correctly found 1 match for the regular expression against the subject and returned the result to the local variable count in the php_pcre_match_impl function.
 
-Let's learn how unpack some internal zend engine data types to look at the results being returned back to PHP. First, let's finish the current php_pcre_match_impl function and get back to our entry point, php_do_pcre_match.
+Let's learn how to unpack and inspect some internal zend engine data types to look at the results being returned back to PHP. First, let's finish the current php_pcre_match_impl function and get back to our entry point, php_do_pcre_match.
 
 ```
 (gdb) finish
