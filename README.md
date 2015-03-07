@@ -85,7 +85,16 @@ $ vagrant ssh
 
 ### Build Box Yourself
 
-TODO
+#### Requirements
+* [VirtualBox]
+* [Packer]
+ 
+```sh
+$ cd packer
+$ packer build packer.json
+```
+
+Note: you may want to edit the packer.json and point it at a valid CentOS iso.
 
 ---
 
