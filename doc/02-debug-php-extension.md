@@ -342,7 +342,7 @@ $21 = {{72 'H'}, {101 'e'}, {108 'l'}, {108 'l'}, {111 'o'}, {44 ','}, {32 ' '}}
 
 And there it is, our match "Hello, " being returned to PHP.
 
-What have we learnt? zval's are just a struct that contain's a zend_value, and a zend_value is a generic data type that can represent any PHP values. A PHP array consists of a "bucket" among other things, which is ultimately just a reference to another zval (i.e. any type). 
+What have we learnt? Zval's are just a struct that contain's a zend_value, and a zend_value is a generic data type that can represent any PHP value. A PHP array consists of a "bucket" structure (among other things), which is ultimately just a reference to another zval (i.e. any type). 
 
 We have a zval -> zend_value -> array -> bucket -> zval -> zend_value -> str where our subpattern match is held.
 
