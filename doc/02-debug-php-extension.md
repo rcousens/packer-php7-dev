@@ -349,6 +349,13 @@ So our result has a length of 7. Let's look at the result itself. GDB print comm
 $3 = {{72 'H'}, {101 'e'}, {108 'l'}, {108 'l'}, {111 'o'}, {44 ','}, {32 ' '}}
 ```
 
+You can also use the x command to inspect variables/memory
+
+```
+(gdb) x subpats->value->arr->arData->val->value->str->val
+0x7ffff0258c58: "Hello, "
+```
+
 And there it is, our match "Hello, " being returned to PHP.
 
 ### Summary
