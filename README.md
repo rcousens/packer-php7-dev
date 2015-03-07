@@ -8,10 +8,11 @@ This repository houses the configuration scripts necessary to build a CentOS 7 b
 
 Upon boot, the Vagrant Salt provisioner will:
 
- - Clone latest PHP source repository from the master branch 
- - Build PHP from source with debug information and gcov
- - Installs the compiled PHP binaries as SAPI FPM
- - Include nginx and PostgreSQL preconfigured for development testing
+ - Clone the latest PHP source repository from the master branch 
+ - Build PHP from source with debug information and gcov enabled
+ - Build the extensions necessary to run common PHP frameworks/applications (composer/Symfony2)
+ - Installs the compiled PHP binaries as SAPI FPM with opcache
+ - Install then configure nginx and PostgreSQL for development testing against the PHP SAPI FPM
 
 Coming soon: an alternative build for production testing.
 
