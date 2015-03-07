@@ -192,13 +192,16 @@ Once we're done debugging the pcre_exec call, to return from the current functio
 Now we're back from the call to count = pcre_exec(...), let's look at the result.
 
 ```
-Run till exit from #0  php_pcre_exec (argument_re=0x1a98a00, extra_data=0x1a98a80, subject=0x7ffff02028b8 "Hello,
-    world. [*], this is \\ a string", length=37, start_offset=0, options=0, offsets=0x7fffffffa8c0, offsetcount=3)
+Run till exit from #0  php_pcre_exec (argument_re=0x1a98a00, extra_data=0x1a98a80, 
+    subject=0x7ffff02028b8 "Hello, world. [*], this is \\ a string", length=37, 
+    start_offset=0, options=0, offsets=0x7fffffffa8c0, offsetcount=3)
   at /home/vagrant/php-src/ext/pcre/pcrelib/pcre_exec.c:6355
-0x00000000005860f5 in php_pcre_match_impl (pce=0x1a98b70, subject=0x7ffff02028b8 "Hello, world. [*], this is \\ a
-    string", subject_len=37, return_value=0x7ffff0214100, subpats=0x7ffff02010e8, global=0, use_flags=0, flags=0,
-    start_offset=0)
+  
+0x00000000005860f5 in php_pcre_match_impl (pce=0x1a98b70, subject=0x7ffff02028b8 "Hello, 
+    world. [*], this is \\ a string", subject_len=37, return_value=0x7ffff0214100, 
+    subpats=0x7ffff02010e8, global=0, use_flags=0, flags=0, start_offset=0)
   at /home/vagrant/php-src/ext/pcre/php_pcre.c:688
+
 688                     count = pcre_exec(pce->re, extra, subject, (int)subject_len, (int)start_offset,
 Value returned is $4 = 1
 ```
