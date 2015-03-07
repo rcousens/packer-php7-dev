@@ -14,7 +14,7 @@ Upon boot, the Vagrant Salt provisioner will:
  - Installs the compiled PHP binaries as SAPI FPM with opcache
  - Install then configure nginx and PostgreSQL for development testing against the PHP SAPI FPM
 
-Coming soon: an alternative build for non-debug testing.
+Coming soon: an alternative PHP build for non-debug testing.
 
 The configuration is defined in Salt state files. The Salt provisioner can either be run by Packer to generate your own box or by Vagrant to ensure an existing box is running the latest specification. To build the box from scratch yourself, you will require a CentOS 7 ISO that has the minimum software as specified in the kickstarter config or if your internet connection is sufficiently fast you could point it to an ISO image to download.
 
