@@ -10,7 +10,7 @@ GDB, or the GNU Project Debugger, allows you to debug a program while it is exec
 
 [GDB Reference Documentation](https://sourceware.org/gdb/current/onlinedocs/gdb/)
 
-#### Configuring GDB
+### Configuring GDB
 
 Let's get started by changing to the php-src directory
 
@@ -40,15 +40,15 @@ To view the available commands once the .gdbinit script is loaded provided try t
 
 Of particular interest is zbacktrace which enables one to backtrace from C to PHP.
 
-#### Debugging a PCRE extension
+### Debugging a PCRE extension
 
 To familiarise ourselves with GDB and its commands available for debugging we will step through a PHP PCRE extension test.
 
-##### PHP Tests Wrapper
+#### PHP Tests Wrapper
 
 The run-tests.php script locates test files and then creates a unique shell script to execute each one in a pristine context. To avoid the complexity and overhead of dealing with GDB and fork/exec, we will run our test directly and bypass the run-tests.php script.
 
-##### Loading GDB
+#### Loading GDB
 
 Now let's load gdb and tell it we intend to run the phpt test file by executing the PHP CLI binary with an argument to its location:
 
@@ -56,7 +56,7 @@ Now let's load gdb and tell it we intend to run the phpt test file by executing 
 $ gdb --args sapi/cli/php ext/pcre/tests/preg_match_basic.phpt
 ```
 
-##### Breaking in GDB from PHP Function calls
+#### Breaking in GDB from PHP Function calls
 
 The PHP function we intend to examine is preg_match() and is defined in the ext/pcre/php_pcre.c file as a static PHP_FUNCTION wrapper around another static function php_do_pcre_match.
 
@@ -84,7 +84,7 @@ Knowing that php_do_pcre_match is called, let's tell gdb we would like to break 
 
 TODO: more info on breakpoint formats.
 
-###### Setting Breakpoints
+#### Setting Breakpoints
 
 ```sh
 (gdb) break php_do_pcre_match
@@ -111,7 +111,7 @@ Let's use the zbacktrace command to find out where we came from.
 
 The above output shows that we are inside the first assertion of our unit test trying to match the word Hello/hello at the start of a string against our subject "Hello, world. [4], this is \ a string".
 
-###### Program Execution Flow
+#### Program Execution Flow
 
 Running next allows us to move line by line through the execution of the original source code. Enter next a few times until you reach a function invocation that looks like this:
 
@@ -138,7 +138,7 @@ Now we are inside the lowest level of the extension that wraps about the PCRE li
 
 In GDB a break can take a conditional argument. Knowing that a string starting with the character 'H' is the subject for our unit tests, let's try and break on that condition. To do so we'll kill the current running program, delete the existing breakpoint and create a new conditional one.
 
-###### Stopping Execution and Breakpoints
+##### Stopping Execution and Breakpoints
 
 ```
 (gdb) kill
@@ -197,7 +197,7 @@ Once we're done debugging the pcre_exec call, to return from the current functio
 
 Now we're back from the call to count = pcre_exec(...), let's look at the result.
 
-###### Exploring Variables and Types
+#### Exploring Variables and Types
 
 
 ```
