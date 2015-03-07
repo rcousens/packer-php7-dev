@@ -138,7 +138,7 @@ Now we are inside the lowest level of the extension that wraps about the PCRE li
 
 In GDB a break can take a conditional argument. Knowing that a string starting with the character 'H' is the subject for our unit tests, let's try and break on that condition. To do so we'll kill the current running program, delete the existing breakpoint and create a new conditional one.
 
-##### Stopping Execution and Breakpoints
+#### Stopping Execution and Breakpoints
 
 ```
 (gdb) kill
