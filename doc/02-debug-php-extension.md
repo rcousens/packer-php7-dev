@@ -103,7 +103,8 @@ Let's use the zbacktrace command to find out where we came from.
 
 ```
 (gdb) zbacktrace
-[0x7ffff0214260] preg_match("/^[hH]ello,\s/", "Hello,\40world.\40[*],\40this\40is\40\\40a\40string", reference) [internal function]
+[0x7ffff0214260] preg_match("/^[hH]ello,\s/", "Hello,\40world.\40[*],\40this\40is\40\\40a\40string", reference)
+    [internal function]
 [0x7ffff0214030] (main) /home/vagrant/php-src/ext/pcre/tests/preg_match_basic.phpt:10 
 ```
 
@@ -113,7 +114,7 @@ Running next allows us to move line by line through the execution of the origina
 
 ```
 (gdb) next
-        php_pcre_match_impl(pce, subject->val, (int)subject->len, return_value, subpats, ...
+    php_pcre_match_impl(pce, subject->val, (int)subject->len, return_value, subpats, ...
 ```
 
 In GDB, we can step inside any function call. The 'next' command by default steps over functions where as 'step' allows us to follow the execution path.
@@ -124,7 +125,9 @@ Let's step inside! For function calls that span multiple lines in the source fil
 (gdb) step
 ...
 (gdb) step
-php_pcre_match_impl (pce=0x1a98b70, subject=0x7ffff02028b8 "Hello, world. [*], this is \\ a string", subject_len=37, return_value=0x7ffff0214100, subpats=0x7ffff02010e8, global=0, use_flags=0, flags=0, start_offset=0) at /home/vagrant/php-src/ext/pcre/php_pcre.c:585
+php_pcre_match_impl (pce=0x1a98b70, subject=0x7ffff02028b8 "Hello, world. [*], this is \\ a string",
+    subject_len=37, return_value=0x7ffff0214100, subpats=0x7ffff02010e8, global=0, use_flags=0, flags=0,
+    start_offset=0) at /home/vagrant/php-src/ext/pcre/php_pcre.c:585
 ```
 
 Now we are inside the lowest level of the extension that wraps about the PCRE library. Looking at the source for php_pcre.c, we see that php_do_pcre_match calls another function php_pcre_match_impl after parsing the arguments from the Zend VM. We know the string that's the subject for evaluation, let's see if we can use the argument subject to php_pcre_match_impl to catch it.
@@ -152,9 +155,10 @@ Now let's set a conditional breakpoint in the lower level function we stepped in
 Success!
 
 ```
-Breakpoint 2, php_pcre_match_impl (pce=0x1a98b70, subject=0x7ffff02028b8 "Hello, world. [*], this is \\ a string", subject_len=37, return_value=0x7ffff0214100, subpats=0x7ffff02010e8, global=0, use_flags=0, flags=0, start_offset=0)
-    at /home/vagrant/php-src/ext/pcre/php_pcre.c:585
-585                                         *match_sets = NULL; /* An array of sets of matches for each
+Breakpoint 2, php_pcre_match_impl (pce=0x1a98b70, subject=0x7ffff02028b8 "Hello, world. [*], this is \\ a string",
+    subject_len=37, return_value=0x7ffff0214100, subpats=0x7ffff02010e8, global=0, use_flags=0, flags=0,
+    start_offset=0)
+  at /home/vagrant/php-src/ext/pcre/php_pcre.c:585
 ```
 
 Let's have a look at what's happening inside this function and start execution line by line:
@@ -188,10 +192,13 @@ Once we're done debugging the pcre_exec call, to return from the current functio
 Now we're back from the call to count = pcre_exec(...), let's look at the result.
 
 ```
-Run till exit from #0  php_pcre_exec (argument_re=0x1a98a00, extra_data=0x1a98a80, subject=0x7ffff02028b8 "Hello, world. [*], this is \\ a string", length=37, start_offset=0, options=0, offsets=0x7fffffffa8c0, offsetcount=3)
-    at /home/vagrant/php-src/ext/pcre/pcrelib/pcre_exec.c:6355
->0x00000000005860f5 in php_pcre_match_impl (pce=0x1a98b70, subject=0x7ffff02028b8 "Hello, world. [*], this is \\ a string", subject_len=37, return_value=0x7ffff0214100, subpats=0x7ffff02010e8, global=0, use_flags=0, flags=0, start_offset=0)
-    at /home/vagrant/php-src/ext/pcre/php_pcre.c:688
+Run till exit from #0  php_pcre_exec (argument_re=0x1a98a00, extra_data=0x1a98a80, subject=0x7ffff02028b8 "Hello,
+    world. [*], this is \\ a string", length=37, start_offset=0, options=0, offsets=0x7fffffffa8c0, offsetcount=3)
+  at /home/vagrant/php-src/ext/pcre/pcrelib/pcre_exec.c:6355
+0x00000000005860f5 in php_pcre_match_impl (pce=0x1a98b70, subject=0x7ffff02028b8 "Hello, world. [*], this is \\ a
+    string", subject_len=37, return_value=0x7ffff0214100, subpats=0x7ffff02010e8, global=0, use_flags=0, flags=0,
+    start_offset=0)
+  at /home/vagrant/php-src/ext/pcre/php_pcre.c:688
 688                     count = pcre_exec(pce->re, extra, subject, (int)subject_len, (int)start_offset,
 Value returned is $4 = 1
 ```
