@@ -130,7 +130,7 @@ We'll delete the existing breakpoint first:
 Now let's set a conditional breakpoint in the second function:
 
 ```
-(gdb) break php_pcre_match_impl if subject = "Hello, world. [*], this is \ a string"
+(gdb) break php_pcre_match_impl if subject == "Hello, world. [*], this is \ a string"
 (gdb) continue
 ```
 
