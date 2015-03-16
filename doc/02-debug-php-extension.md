@@ -3,6 +3,8 @@ Debugging PHP Extensions
 
 The following tutorial is conducted from within the /home/vagrant/php-src directory.
 
+TODO: bt full, backtrace and .gdbinit clearer explanation for PHP versions etc
+
 Using GDB
 ---------
 
